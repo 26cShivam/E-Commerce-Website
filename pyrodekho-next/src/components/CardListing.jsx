@@ -2,34 +2,16 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
 import { cloudinaryLoader } from "@/utils/optimizeImage";
 
-function CardListing({ image, title, price, slug, category }) {
-  const router = useRouter();
-
-  const { isAuth, loading } = useAuth();
-
-  // A real link (so search engines can follow it), but visitors must be
-  // logged in to open product details
-  const handleViewDetails = (e) => {
-    // Wait until the login check (token or Google cookie) has finished
-    if (loading) {
-      e.preventDefault();
-      return;
-    }
-
-    if (!isAuth) {
-      e.preventDefault();
-      toast.error("Please login or sign up to view product details 🔐");
-      router.push("/login");
-    }
-  };
+// Client component: the image loader function can't be passed from a server page.
+// Product details are public. Only the cart and orders need a login.
+function CardListing({ image, title, price, slug, category, status }) {
+  const outOfStock = status === "out_of_stock";
 
   return (
-    <div className="card">
+    <div className={`card ${outOfStock ? "card-soldout" : ""}`}>
+      {outOfStock && <span className="card-stock-badge">Out of stock</span>}
       {image && (
         <Image
           loader={cloudinaryLoader}
@@ -48,11 +30,7 @@ function CardListing({ image, title, price, slug, category }) {
           Starting ₹{price} / piece
         </p>
 
-        <Link
-          href={`/${category}/${slug}`}
-          className="btn-filled mt-2"
-          onClick={handleViewDetails}
-        >
+        <Link href={`/${category}/${slug}`} className="btn-filled mt-2">
           View Details
         </Link>
       </div>

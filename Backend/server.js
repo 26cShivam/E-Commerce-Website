@@ -12,6 +12,8 @@ const fileUpload = require("express-fileupload");
 const authRoutes = require("./routes/auth.routes");
 const productRoutes = require("./routes/productRoutes");
 const videoRoutes = require("./routes/videoRoutes");
+const cartRoutes = require("./routes/cartRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 const eventEnquiryRoutes = require("./routes/eventEnquiryRoutes");
 
 // App init
@@ -60,6 +62,8 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/videos", videoRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/orders", orderRoutes);
 app.use("/api", eventEnquiryRoutes);
 // Google Sheets Webhook Route
 app.post("/api/sheet-webhook", (req, res) => {

@@ -1,0 +1,682 @@
+/* ================================
+   ADMIN SHELL + NAV
+================================ */
+
+.adm-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.adm-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 24px;
+  background: #111827;
+  color: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.adm-nav-brand {
+  font-weight: 700;
+  font-size: 17px;
+  color: #ffffff;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.adm-nav-links {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.adm-nav-links::-webkit-scrollbar {
+  display: none;
+}
+
+.adm-nav-link {
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #d1d5db;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.adm-nav-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.adm-nav-link.active {
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+.adm-nav-site {
+  color: #a5b4fc;
+}
+
+.adm-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+/* The add pages were built to fill the whole screen; inside the shell
+   they only need to sit under the nav */
+.adm-main .add-product-page,
+.adm-main .add-video-page {
+  min-height: auto;
+}
+
+/* ================================
+   SHARED: HEADINGS, BUTTONS, TABS
+================================ */
+
+.adm-page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.adm-page-head h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.adm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.adm-btn:hover {
+  border-color: #6366f1;
+  color: #4f46e5;
+}
+
+.adm-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.adm-btn-primary {
+  background: linear-gradient(to right, #6366f1, #4f46e5);
+  border-color: transparent;
+  color: #ffffff;
+}
+
+.adm-btn-primary:hover {
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+}
+
+.adm-btn-danger {
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.adm-btn-danger:hover {
+  background: #fef2f2;
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+.adm-btn-success {
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+.adm-btn-success:hover {
+  background: #f0fdf4;
+  border-color: #15803d;
+  color: #15803d;
+}
+
+.adm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.adm-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+}
+
+.adm-tab {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.adm-tab.active {
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+.adm-toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.adm-toolbar input,
+.adm-toolbar select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  font-size: 14px;
+}
+
+.adm-toolbar input {
+  flex: 1;
+  min-width: 0;
+}
+
+.adm-toolbar input:focus,
+.adm-toolbar select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.adm-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 11px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.adm-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 40px 20px;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #4b5563;
+  text-align: center;
+}
+
+.adm-route-error {
+  max-width: 420px;
+  margin: 80px auto;
+}
+
+/* ================================
+   DASHBOARD
+================================ */
+
+.adm-dash-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.adm-dash-card {
+  padding: 22px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.adm-dash-card h2 {
+  font-size: 16px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.adm-dash-count {
+  margin-top: 6px;
+  font-size: 40px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.adm-dash-sub {
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ================================
+   PRODUCT LIST
+================================ */
+
+.adm-plist-rows {
+  list-style: none;
+  border-radius: 14px;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.adm-plist-row {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) 120px 80px 120px 160px;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 14px;
+  color: #374151;
+}
+
+.adm-plist-row:last-child {
+  border-bottom: none;
+}
+
+.adm-plist-header {
+  background: #f9fafb;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+
+.adm-plist-row.is-deleted {
+  background: #fafafa;
+}
+
+.adm-plist-row.is-deleted .adm-plist-img {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+
+.adm-plist-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #f3f4f6;
+}
+
+.adm-plist-noimg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.adm-plist-title {
+  font-weight: 600;
+  color: #111827;
+  overflow-wrap: anywhere;
+}
+
+.adm-plist-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.adm-plist-title a:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+.adm-plist-price {
+  font-weight: 600;
+}
+
+/* ================================
+   VIDEO LIST
+================================ */
+
+.adm-vlist-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.adm-vlist-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.adm-vlist-card video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000000;
+  object-fit: contain;
+}
+
+.adm-vlist-card.is-deleted video {
+  opacity: 0.5;
+}
+
+.adm-vlist-body,
+.adm-vlist-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+}
+
+.adm-vlist-body h3 {
+  font-size: 15px;
+  color: #111827;
+  overflow-wrap: anywhere;
+}
+
+.adm-vlist-body p {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.adm-vlist-body .adm-actions {
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.adm-vlist-form label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.adm-vlist-form input,
+.adm-vlist-form select {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.adm-vlist-form input[type="file"] {
+  padding: 6px;
+  background: #f9fafb;
+  font-size: 12px;
+}
+
+/* ================================
+   PRODUCT FORM EXTRAS
+   (base look comes from addProduct.css)
+================================ */
+
+.adm-pform-preview {
+  display: block;
+  width: 120px;
+  height: 120px;
+  margin-top: 8px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #f3f4f6;
+}
+
+.add-product-card .adm-pform-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fffbeb;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.add-product-card .adm-pform-check input {
+  width: auto;
+  margin-top: 2px;
+}
+
+.adm-pform-check small {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #92400e;
+}
+
+/* ================================
+   TABLET ≤900px
+================================ */
+
+@media (max-width: 900px) {
+  .adm-vlist-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .adm-plist-row {
+    grid-template-columns: 56px minmax(0, 1fr) 100px 70px 112px 150px;
+    gap: 10px;
+  }
+
+  .adm-plist-img {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+/* ================================
+   LARGE MOBILE ≤700px
+   Product rows turn into cards
+================================ */
+
+@media (max-width: 700px) {
+  .adm-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 10px 16px;
+  }
+
+  .adm-main {
+    padding: 16px 16px 32px;
+  }
+
+  .adm-page-head h1 {
+    font-size: 20px;
+  }
+
+  .adm-dash-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .adm-plist-header {
+    display: none;
+  }
+
+  .adm-plist-row {
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "img title title"
+      "img cat price"
+      "stock stock stock"
+      "actions actions actions";
+    gap: 6px 12px;
+    padding: 14px 16px;
+  }
+
+  .adm-plist-img {
+    grid-area: img;
+    width: 64px;
+    height: 64px;
+  }
+
+  .adm-plist-title {
+    grid-area: title;
+  }
+
+  .adm-plist-cat {
+    grid-area: cat;
+    font-size: 13px;
+    color: #6b7280;
+  }
+
+  .adm-plist-price {
+    grid-area: price;
+  }
+
+  .adm-plist-stock {
+    grid-area: stock;
+  }
+
+  .adm-plist-row .adm-actions {
+    grid-area: actions;
+    margin-top: 6px;
+  }
+
+  .adm-plist-row .adm-actions .adm-btn {
+    flex: 1;
+  }
+}
+
+/* ================================
+   SMALL MOBILE ≤480px
+================================ */
+
+@media (max-width: 480px) {
+  .adm-vlist-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .adm-toolbar {
+    flex-direction: column;
+  }
+
+  .adm-page-head .adm-btn {
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+}
+
+/* Stock switch in the product list: on = available, off = out of stock */
+.adm-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+}
+
+.adm-switch-track {
+  position: relative;
+  width: 38px;
+  height: 22px;
+  flex: none;
+  border-radius: 999px;
+  background: #d1d5db;
+  transition: background 0.2s ease;
+}
+
+.adm-switch-track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.adm-switch[aria-checked="true"] .adm-switch-track { background: #16a34a; }
+.adm-switch[aria-checked="true"] .adm-switch-track::after { transform: translateX(16px); }
+.adm-switch[aria-checked="false"] { color: #b91c1c; }
+.adm-switch:disabled { opacity: 0.6; cursor: wait; }
+.adm-switch:focus-visible { outline: 2px solid #6366f1; outline-offset: 3px; border-radius: 6px; }
+
+/* Product list extras */
+.adm-plist-row:not(.adm-plist-header):hover {
+  background: #f9fafb;
+}
+
+.adm-plist-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.adm-plist-summary .is-warn {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.adm-plist-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* The site's fixed header leaves 72px of space at the top of every page;
+   the admin has its own nav and doesn't need it */
+body:has(.adm-shell) {
+  padding-top: 0;
+}
+
+.adm-toolbar {
+  flex-wrap: wrap;
+}
+
+.adm-toolbar input {
+  flex: 1 1 220px;
+}
+
+@media (max-width: 480px) {
+  /* In a column the flex-basis would set a height */
+  .adm-toolbar input {
+    flex: none;
+  }
+}

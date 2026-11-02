@@ -8,6 +8,7 @@ import Loader from "@/components/Loader";
 import CardListing from "@/components/CardListing";
 import ProductImageZoom from "@/components/ProductImageZoom";
 import ShareButton from "@/components/ShareButton";
+import AddToCartButton from "@/components/AddToCartButton";
 import JsonLd from "@/components/JsonLd";
 import { getProduct, getProductsByCategory } from "@/lib/api";
 import { pageMetadata, SITE_URL, SITE_NAME } from "@/lib/seo";
@@ -76,7 +77,11 @@ async function ProductDetail({ params }) {
   if (!product) notFound();
 
   const tech = product.technical || {};
-  const inStock = !/out/i.test(tech.availability || "");
+  // The admin's stock status decides; older products without one fall back
+  // to the free-text availability
+  const inStock = product.status
+    ? product.status !== "out_of_stock"
+    : !/out/i.test(tech.availability || "");
 
   // Key specs shown as chips; everything else goes in the table
   const chipKeys = ["burnTime", "sparkHeight", "smoke"];
@@ -160,9 +165,9 @@ async function ProductDetail({ params }) {
           <div className="pd-info">
             <div className="pd-top-row">
               {categoryLabel && <span className="pd-tag">{categoryLabel}</span>}
-              {tech.availability && (
+              {(product.status || tech.availability) && (
                 <span className={`pd-stock ${inStock ? "in" : "out"}`}>
-                  {tech.availability}
+                  {inStock ? tech.availability || "Available" : "Out of stock"}
                 </span>
               )}
               <ShareButton title={product.title} />
@@ -194,6 +199,7 @@ async function ProductDetail({ params }) {
               <Link className="pd-btn pd-btn-primary" href={bookLink}>
                 Book Now / Get Quote
               </Link>
+              <AddToCartButton productId={String(product._id)} outOfStock={!inStock} />
               <a
                 className="pd-btn pd-btn-whatsapp"
                 href={whatsappLink}
@@ -236,6 +242,11 @@ async function ProductDetail({ params }) {
 
       {/* STICKY MOBILE BAR */}
       <div className="pd-sticky-bar">
+        <AddToCartButton
+          productId={String(product._id)}
+          outOfStock={!inStock}
+          className="pd-sticky-cart"
+        />
         <a className="pd-btn pd-btn-whatsapp" href={whatsappLink} target="_blank" rel="noreferrer">
           <FaWhatsapp /> WhatsApp
         </a>

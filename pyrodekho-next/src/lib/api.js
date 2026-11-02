@@ -1,9 +1,9 @@
 import "server-only";
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 // Server-side data helpers. The server can use a separate (e.g. internal)
 // URL when API_BASE_URL is set; otherwise it uses the public one.
-const SERVER_API =
+export const SERVER_API =
   process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // Fetch JSON from the backend for server-rendered pages.
@@ -11,8 +11,11 @@ const SERVER_API =
 // cached only briefly so a backend hiccup doesn't stick around.
 // With throwOnError, a failure (other than 404) shows the error page instead
 // of the fallback.
+// Each result is tagged "products" or "videos" (the first path segment) so
+// admin changes can expire it right away (see app/admin/actions.js).
 async function getData(path, fallback, throwOnError = false) {
   "use cache";
+  cacheTag(path.split(/[/?]/)[1]);
 
   try {
     const res = await fetch(`${SERVER_API}${path}`);

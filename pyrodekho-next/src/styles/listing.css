@@ -43,7 +43,8 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  background-color: blue;
+  /* Shows behind transparent PNG product photos */
+  background-color: #fff;
 }
 
 .card-body {
@@ -113,3 +114,21 @@
     margin-top: 20px;
   }
 }
+
+/* Out-of-stock products stay visible but are flagged */
+.card { position: relative; }
+
+.card-stock-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #b91c1c;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.card-soldout img { opacity: 0.6; }
