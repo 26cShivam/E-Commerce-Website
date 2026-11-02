@@ -1,4 +1,5 @@
 import AdminRoute from "@/components/AdminRoute";
+import AdminNav from "@/components/admin/AdminNav";
 
 // Admin pages are private: keep them out of search results
 export const metadata = {
@@ -10,5 +11,12 @@ export const metadata = {
 };
 
 export default function AdminLayout({ children }) {
-  return <AdminRoute>{children}</AdminRoute>;
+  return (
+    <AdminRoute>
+      <div className="adm-shell">
+        <AdminNav />
+        <main className="adm-main">{children}</main>
+      </div>
+    </AdminRoute>
+  );
 }

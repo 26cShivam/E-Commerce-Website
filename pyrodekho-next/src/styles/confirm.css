@@ -1,0 +1,100 @@
+/* Confirmation popup (cfm-*) */
+
+.cfm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.5);
+  animation: cfm-fade 0.15s ease-out;
+}
+
+.cfm-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  animation: cfm-pop 0.18s ease-out;
+}
+
+.cfm-title {
+  margin: 0 0 8px;
+  font-size: 19px;
+  color: #111;
+}
+
+.cfm-message {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #4b5563;
+  white-space: pre-line;
+}
+
+.cfm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.cfm-btn {
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cfm-btn-cancel {
+  background: #fff;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+.cfm-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.cfm-btn-primary {
+  background: linear-gradient(135deg, #ff8a00, #ff5e00);
+  color: #fff;
+}
+
+.cfm-btn:focus-visible {
+  outline: 2px solid #ff8a00;
+  outline-offset: 2px;
+}
+
+@keyframes cfm-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes cfm-pop {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* MOBILE ≤480px: full-width stacked buttons, safe choice last for thumbs */
+@media (max-width: 480px) {
+  .cfm-box {
+    padding: 20px;
+  }
+
+  .cfm-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cfm-btn {
+    width: 100%;
+    padding: 12px;
+  }
+}

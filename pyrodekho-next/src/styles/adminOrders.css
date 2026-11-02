@@ -1,0 +1,137 @@
+/* Admin orders page (adm-ord-*) and the dashboard orders card */
+
+.adm-ord-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.adm-ord-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.adm-ord-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 1.2fr) minmax(130px, 1.2fr) 90px 100px auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.adm-ord-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #111;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.adm-ord-sub {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.adm-ord-cust {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.adm-ord-cust a {
+  color: #ea580c;
+}
+
+.adm-ord-total {
+  color: #111;
+}
+
+.adm-ord-status {
+  justify-self: start;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.adm-ord-status-confirmed { background: #dbeafe; color: #1d4ed8; }
+.adm-ord-status-delivered { background: #e7f7ec; color: #15803d; }
+.adm-ord-status-cancelled { background: #fee2e2; color: #b91c1c; }
+
+.adm-ord-detail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  padding: 16px;
+  border-top: 1px solid #f3f4f6;
+  background: #fafafa;
+  font-size: 14px;
+  color: #374151;
+}
+
+.adm-ord-detail h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+
+.adm-ord-detail p {
+  margin: 0 0 6px;
+  white-space: pre-line;
+}
+
+.adm-ord-detail ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.adm-ord-detail li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+/* Dashboard orders card: "needs a call" highlight */
+.adm-dash-count.is-alert {
+  color: #ea580c;
+}
+
+/* TABLET ≤900px */
+@media (max-width: 900px) {
+  .adm-ord-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "num status"
+      "cust total"
+      "actions actions";
+    gap: 8px 12px;
+  }
+
+  .adm-ord-toggle { grid-area: num; }
+  .adm-ord-status { grid-area: status; justify-self: end; }
+  .adm-ord-cust { grid-area: cust; }
+  .adm-ord-total { grid-area: total; justify-self: end; }
+  .adm-ord-row .adm-actions { grid-area: actions; }
+
+  .adm-ord-detail {
+    grid-template-columns: 1fr;
+  }
+}

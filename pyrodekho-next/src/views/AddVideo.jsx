@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import toast from "react-hot-toast";
-
-const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+import { adminMutate } from "@/lib/adminApi";
 
 function AddVideo() {
   const [title, setTitle] = useState("");
@@ -39,19 +38,11 @@ function AddVideo() {
       formData.append("type", type);
       formData.append("video", file);
 
-      const res = await fetch(`${API}/videos/upload`, {
+      await adminMutate("/videos/upload", {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
         body: formData,
+        refresh: "videos",
       });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Video upload failed");
-      }
 
       toast.success("Video uploaded successfully 🎉", {
         id: toastId,

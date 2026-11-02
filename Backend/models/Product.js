@@ -17,6 +17,17 @@ const productSchema = new mongoose.Schema(
       sparkHeight: String,
       smoke: String,
     },
+
+    // Whether the product can be bought. Products created before this field
+    // existed have no status and count as available.
+    status: {
+      type: String,
+      enum: ["available", "out_of_stock"],
+      default: "available",
+    },
+
+    // Soft delete: hidden from the site when false, restorable by admin
+    isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

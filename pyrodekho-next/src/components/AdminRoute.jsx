@@ -1,46 +1,54 @@
 "use client";
 
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
+import Loader from "@/components/Loader";
+import { adminFetch } from "@/lib/adminApi";
 
-const ADMIN_EMAILS = [
-  "shivam8130752247@gmail.com",
-];
-
-const subscribe = () => () => {};
-
-// Where to send the visitor, or null if they are an admin
-const getRedirect = (token) => {
-  if (!token) return "/login";
-
-  try {
-    const decoded = jwtDecode(token);
-    return ADMIN_EMAILS.includes(decoded.email) ? null : "/";
-  } catch (err) {
-    console.error("Invalid token", err);
-    return "/login";
-  }
-};
-
-// Token lives in localStorage, so the check can only run in the browser.
-// On the server (and during hydration) the token is `undefined` and nothing renders.
+// The backend decides who is an admin (GET /auth/admin-check), so there is
+// no admin list here. It accepts either login: the email/password token or
+// the Google cookie. Hiding the pages is only for convenience: every admin
+// API route checks the login again.
 const AdminRoute = ({ children }) => {
   const router = useRouter();
-  const token = useSyncExternalStore(
-    subscribe,
-    () => localStorage.getItem("token"),
-    () => undefined,
-  );
-
-  const redirectTo = token === undefined ? null : getRedirect(token);
+  // "checking" | "admin" | "error"
+  const [status, setStatus] = useState("checking");
 
   useEffect(() => {
-    if (redirectTo) router.replace(redirectTo);
-  }, [redirectTo, router]);
+    let cancelled = false;
 
-  if (token === undefined || redirectTo) return null;
-  return children;
+    adminFetch("/auth/admin-check")
+      .then(() => !cancelled && setStatus("admin"))
+      .catch((err) => {
+        if (cancelled) return;
+        if (err.status === 401) {
+          // Not logged in, or the login expired: log in again
+          localStorage.removeItem("token");
+          router.replace("/login");
+        } else if (err.status === 403) {
+          router.replace("/");
+        } else {
+          setStatus("error");
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
+
+  if (status === "admin") return children;
+  if (status === "error") {
+    return (
+      <div className="adm-empty adm-route-error">
+        <p>Could not reach the server to check admin access.</p>
+        <button type="button" className="adm-btn" onClick={() => window.location.reload()}>
+          Try again
+        </button>
+      </div>
+    );
+  }
+  return <Loader />;
 };
 
 export default AdminRoute;

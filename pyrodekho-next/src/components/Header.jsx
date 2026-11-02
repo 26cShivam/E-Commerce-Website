@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSearch } from "@/context/SearchContext";
 import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/context/CartContext";
 import logo from "@/assets/pyrodekhologo.jpg";
 
 const FILTER_OPTIONS = [
@@ -62,6 +63,7 @@ function Header({ searchPlaceholder, showFilter = false }) {
   const placeholderText = isMobile ? "Search products..." : searchPlaceholder;
 
   const { isAuth, name, logout: authLogout } = useAuth();
+  const { cart } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const closeMenu = () => setMenuOpen(false);
@@ -188,6 +190,8 @@ function Header({ searchPlaceholder, showFilter = false }) {
         )}
 
         {navLink("/book", "Book Now")}
+        {isAuth && navLink("/cart", cart.count > 0 ? `Cart (${cart.count})` : "Cart")}
+        {isAuth && navLink("/orders", "My Orders")}
         {navLink("/safety", "Safety")}
         {navLink("/contact", "Contact")}
 
